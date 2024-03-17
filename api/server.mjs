@@ -42,3 +42,7 @@ server.listen(8080);
 
 console.log('Server started on port 8080');
 
+export default function handler(request, response) {
+  const { name = 'World' } = request.query;
+  return response.send(`Hello ${name}!`);
+}
