@@ -18,28 +18,19 @@ const xmlNode = (
   props = ''
 ) => `<${node + xmlProps(props)}>${innerXML}</${node}>`;
 
-
-
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/rss+xml' });
-
-  const xml = xmlMeta(xmlNode('channel',
-    xmlNode('title', 'Test RSS Audio') +
-    xmlNode('link', 'testlink.com') +
-    xmlNode('description', 'this is a test for rss audio gen') +
-    xmlNode('item',
-      xmlNode('title', 'an audio file') +
-      xmlNode('link', '', { 'rel': 'enclosure', 'url': testUrl }) +
-      xmlNode('description', 'an audio file description')
-    )
+const xml = xmlMeta(xmlNode('channel',
+  xmlNode('title', 'Test RSS Audio') +
+  xmlNode('link', 'testlink.com') +
+  xmlNode('description', 'this is a test for rss audio gen') +
+  xmlNode('item',
+    xmlNode('title', 'an audio file') +
+    xmlNode('link', '', { 'rel': 'enclosure', 'url': testUrl }) +
+    xmlNode('description', 'an audio file description')
   )
-  );
+));
 
+export default http.createServer((_, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/rss+xml' });
   res.end(xml);
 })
-
-server.listen(8080);
-
-console.log('Server started on port 8080');
-
-export default server;
+  .listen(8080);
