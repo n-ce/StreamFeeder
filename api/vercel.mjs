@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     pid = pID
   } = req.query;
 
-  const xmlResponse = await main(piped, invidious, req.query.pid)
+  const xmlResponse = await main(piped, invidious, pid)
 
   return res.send(xmlResponse);
 }
