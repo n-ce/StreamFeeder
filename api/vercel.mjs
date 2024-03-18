@@ -1,7 +1,9 @@
 import { xml } from "../main.mjs"
 
 export default function handler(req, res) {
-  return res.json({
-    message: xml(req.query.url)
-  })
+  return res.send(
+    xml(
+      req.query.url
+    )
+  )
 }
