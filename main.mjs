@@ -1,3 +1,4 @@
+import { xmlFormat } from "./formatter.mjs";
 
 const testUrl = 'https://invidious.nerdvpn.de/latest_version?id=YRoZ-MXZtMA&amp;itag=251';
 
@@ -17,8 +18,9 @@ const xmlNode = (
   props = ''
 ) => `<${node + xmlProps(props)}>${innerXML}</${node}>`;
 
+
 export const xml = (url = testUrl) =>
-  xmlMeta(xmlNode('channel',
+  xmlFormat(xmlMeta(xmlNode('channel',
     xmlNode('title', 'Test RSS Audio') +
     xmlNode('link', 'testlink.com') +
     xmlNode('description', 'this is a test for rss audio gen') +
@@ -27,5 +29,5 @@ export const xml = (url = testUrl) =>
       xmlNode('link', '', { 'rel': 'enclosure', 'url': url }) +
       xmlNode('description', 'an audio file description')
     )
-  ));
+  )));
 
