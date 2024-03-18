@@ -1,5 +1,7 @@
 import { xml } from "../main.mjs"
 
-export default handler = (req, res) => res.json({
-  message: xml(req.query.url)
-})
+export default function handler(req, res) {
+  return res.json({
+    message: xml(req.query.url)
+  })
+}
