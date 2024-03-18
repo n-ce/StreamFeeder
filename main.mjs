@@ -17,13 +17,15 @@ const xmlNode = (
   props = ''
 ) => `<${node + xmlProps(props)}>${innerXML}</${node}>`;
 
-export const xml = xmlMeta(xmlNode('channel',
-  xmlNode('title', 'Test RSS Audio') +
-  xmlNode('link', 'testlink.com') +
-  xmlNode('description', 'this is a test for rss audio gen') +
-  xmlNode('item',
-    xmlNode('title', 'an audio file') +
-    xmlNode('link', '', { 'rel': 'enclosure', 'url': testUrl }) +
-    xmlNode('description', 'an audio file description')
-  )
-));
+export const xml = (url = testUrl) =>
+  xmlMeta(xmlNode('channel',
+    xmlNode('title', 'Test RSS Audio') +
+    xmlNode('link', 'testlink.com') +
+    xmlNode('description', 'this is a test for rss audio gen') +
+    xmlNode('item',
+      xmlNode('title', 'an audio file') +
+      xmlNode('link', '', { 'rel': 'enclosure', 'url': url }) +
+      xmlNode('description', 'an audio file description')
+    )
+  ));
+

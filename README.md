@@ -3,7 +3,7 @@
 
 ### *Under Development*
 
-- [ ] Prepare XML Syntax
-- [ ] Prepare API access
+- [x] Prepare XML Syntax
+- [x] Prepare API access
 - [ ] Setup Generator
 - [ ] Setup Input

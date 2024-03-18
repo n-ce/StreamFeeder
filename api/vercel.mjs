@@ -1,6 +1,5 @@
-export default function handler(req, res) {
-  const { name = 'World' } = req.query
-  return res.json({
-    message: `Hello ${name}!`,
-  })
-}
+import { xml } from "../main.mjs"
+
+export default handler = (req, res) => res.json({
+  message: xml(req.query.url)
+})
