@@ -1,11 +1,8 @@
+import { getData } from "./invidious.mjs";
+
 const exInstance = 'https://invidious.nerdvpn.de';
-const exID = 'YRoZ-MXZtMA';
-const exItag = '251';
+const exPID = 'PLycDFnZLmfaDgAij1RGliVANxaqg0Ar_W';
 
-const createLink = (id, itag, api) => api + `/latest_version?id=${id}&amp;itag=${itag}`;
-
-const xmlMeta = innerXML => `<?xml version="1.0" encoding="UTF-8" ?>
-  <rss version="2.0">${innerXML}</rss>`;
 
 function xmlAttribute(attrs) {
   let string = '';
@@ -23,17 +20,23 @@ const xmlTag = (
 </${name}>`;
 
 
-const testLink = createLink(exID, exItag, exInstance);
+const data = (await
+  getData(exInstance, exPID)
+)
+  .map(id => xmlTag('link', '', {
+    'rel': 'enclosure', 'url':
+      exInstance + `/latest_version?id=${id}&amp;itag=251`
+  }))
+  .join('\n');
 
-export const xml = (url = testLink) =>
-  xmlMeta(xmlTag('channel',
-    xmlTag('title', 'Test RSS Audio') +
-    xmlTag('link', 'testlink.com') +
-    xmlTag('description', 'this is a test for rss audio gen') +
-    xmlTag('item',
-      xmlTag('title', 'an audio file') +
-      xmlTag('link', '', { 'rel': 'enclosure', 'url': url }) +
-      xmlTag('description', 'an audio file description')
-    )
-  ));
+export const xml = () =>
+  '<?xml version="1.0" encoding="UTF-8" ?>' +
+  xmlTag('rss',
+    xmlTag('channel',
+      xmlTag('title', 'Test RSS Audio') +
+      xmlTag('link', exInstance) +
+      xmlTag('description', 'this is a test for rss audio gen') +
+      xmlTag('item', data)
+    ), { 'version': '2.0' }
+  );
 
