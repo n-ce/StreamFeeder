@@ -1,10 +1,18 @@
-import { xml } from "../main.mjs"
+import main from "../main.mjs";
 
+const invI = 'https://invidious.nerdvpn.de';
+const pID = 'PLycDFnZLmfaDgAij1RGliVANxaqg0Ar_W';
+const pipI = 'https://pipedapi.kavin.rocks';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
 
-  const url = req.query.url;
-  const xmlResponse = xml(url);
+  const {
+    piped = pipI,
+    invidious = invI,
+    pid = pID
+  } = req.query;
+
+  const xmlResponse = await main(piped, invidious, req.query.pid)
 
   return res.send(xmlResponse);
 }
