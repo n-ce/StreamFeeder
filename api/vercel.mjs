@@ -9,10 +9,11 @@ export default async function handler(req, res) {
   const {
     piped = pipI,
     invidious = invI,
-    pid = pID
+    pid = pID,
+    itag = '251'
   } = req.query;
 
-  const xmlResponse = await main(piped, invidious, pid)
+  const xmlResponse = await main(piped, invidious, pid, itag)
 
   return res.send(xmlResponse);
 }
