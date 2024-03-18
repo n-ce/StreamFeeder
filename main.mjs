@@ -2,8 +2,7 @@ const exInstance = 'https://invidious.nerdvpn.de';
 const exID = 'YRoZ-MXZtMA';
 const exItag = '251';
 
-const createLink = (id, itag, api) => api + `/latest_version?id=${id}
-&amp;itag=${itag}`;
+const createLink = (id, itag, api) => api + `/latest_version?id=${id}&amp;itag=${itag}`;
 
 const xmlMeta = innerXML => `<?xml version="1.0" encoding="UTF-8" ?>
   <rss version="2.0">${innerXML}</rss>`;
@@ -20,7 +19,8 @@ const xmlTag = (
   innerXML = '',
   attributes = {}
 ) => `
-<${name + xmlAttribute(attributes)}>${innerXML}</${name}>`;
+<${name + xmlAttribute(attributes)}>${innerXML}
+</${name}>`;
 
 
 const testLink = createLink(exID, exItag, exInstance);
