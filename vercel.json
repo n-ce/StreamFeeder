@@ -4,16 +4,5 @@
       "source": "/(.*)",
       "destination": "api/vercel"
     }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/rss+xml"
-        }
-      ]
-    }
   ]
 }
