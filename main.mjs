@@ -1,31 +1,39 @@
-const testUrl = 'https://invidious.nerdvpn.de/latest_version?id=YRoZ-MXZtMA&amp;itag=251';
+const exInstance = 'https://invidious.nerdvpn.de';
+const exID = 'YRoZ-MXZtMA';
+const exItag = '251';
 
-const xmlMeta = innerXML => '<?xml version="1.0" encoding="UTF-8" ?><rss version="2.0">' + innerXML + '</rss>';
+const createLink = (id, itag, api) => api + `/latest_version?id=${id}
+&amp;itag=${itag}`;
 
-function xmlProps(props) {
+const xmlMeta = innerXML => `<?xml version="1.0" encoding="UTF-8" ?>
+  <rss version="2.0">${innerXML}</rss>`;
+
+function xmlAttribute(attrs) {
   let string = '';
-  if (props)
-    for (const prop in props)
-      string += ` ${prop}="${props[prop]}"`;
+  for (const attr in attrs)
+    string += ` ${attr}="${attrs[attr]}"`;
   return string;
 }
 
-const xmlNode = (
-  node,
+const xmlTag = (
+  name,
   innerXML = '',
-  props = ''
-) => `<${node + xmlProps(props)}>${innerXML}</${node}>`;
+  attributes = {}
+) => `
+<${name + xmlAttribute(attributes)}>${innerXML}</${name}>`;
 
 
-export const xml = (url = testUrl) =>
-  xmlMeta(xmlNode('channel',
-    xmlNode('title', 'Test RSS Audio') +
-    xmlNode('link', 'testlink.com') +
-    xmlNode('description', 'this is a test for rss audio gen') +
-    xmlNode('item',
-      xmlNode('title', 'an audio file') +
-      xmlNode('link', '', { 'rel': 'enclosure', 'url': url }) +
-      xmlNode('description', 'an audio file description')
+const testLink = createLink(exID, exItag, exInstance);
+
+export const xml = (url = testLink) =>
+  xmlMeta(xmlTag('channel',
+    xmlTag('title', 'Test RSS Audio') +
+    xmlTag('link', 'testlink.com') +
+    xmlTag('description', 'this is a test for rss audio gen') +
+    xmlTag('item',
+      xmlTag('title', 'an audio file') +
+      xmlTag('link', '', { 'rel': 'enclosure', 'url': url }) +
+      xmlTag('description', 'an audio file description')
     )
   ));
 
