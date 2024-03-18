@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/vercel",
-      "destination": "/"
+      "source": "/(.*)",
+      "destination": "api/vercel"
     }
   ]
 }
