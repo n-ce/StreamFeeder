@@ -1,4 +1,3 @@
-import http from 'http';
 
 const testUrl = 'https://invidious.nerdvpn.de/latest_version?id=YRoZ-MXZtMA&amp;itag=251';
 
@@ -18,7 +17,7 @@ const xmlNode = (
   props = ''
 ) => `<${node + xmlProps(props)}>${innerXML}</${node}>`;
 
-const xml = xmlMeta(xmlNode('channel',
+export const xml = xmlMeta(xmlNode('channel',
   xmlNode('title', 'Test RSS Audio') +
   xmlNode('link', 'testlink.com') +
   xmlNode('description', 'this is a test for rss audio gen') +
@@ -28,9 +27,3 @@ const xml = xmlMeta(xmlNode('channel',
     xmlNode('description', 'an audio file description')
   )
 ));
-
-export default http.createServer((_, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/rss+xml' });
-  res.end(xml);
-})
-  .listen(8080);
