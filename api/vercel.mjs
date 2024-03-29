@@ -13,7 +13,10 @@ export default async function handler(req, res) {
     itag = '251'
   } = req.query;
 
-  const xmlResponse = await main(piped, invidious, pid, itag)
+
+  const xmlResponse = await main(piped, invidious, pid, itag);
+
+  res.setHeader('content-type', 'text/plain');
 
   return res.send(xmlResponse);
 }
