@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
   const xmlResponse = await main(piped, invidious, pid, itag);
 
-  res.setHeader('content-type', 'text/plain');
+  res.setHeader('content-type', 'application/rss+xml');
 
   return res.send(xmlResponse);
 }
