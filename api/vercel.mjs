@@ -1,22 +1,33 @@
-import main from "../main.mjs";
-
-const invI = 'https://invidious.nerdvpn.de';
-const pID = 'PLycDFnZLmfaDgAij1RGliVANxaqg0Ar_W';
-const pipI = 'https://pipedapi.kavin.rocks';
 
 export default async function handler(req, res) {
 
-  const {
-    piped = pipI,
-    invidious = invI,
-    pid = pID,
-    itag = '251'
-  } = req.query;
-
-
-  const xmlResponse = await main(piped, invidious, pid, itag);
-
   res.setHeader('content-type', 'application/rss+xml');
 
-  return res.send(xmlResponse);
+  return fetch(`https://pipedapi.kavin.rocks/rss/playlists/${req.query.id || 'PLycDFnZLmfaDgAij1RGliVANxaqg0Ar_W'}`)
+    .then(res => res.text())
+    .then(xml => {
+      xml
+        .split('\n')
+        .filter(v => v.includes('<link>') && v.includes('watch?v='))
+        .map(v => v.slice(12, 55))
+        .forEach(v => {
+          fetch('https://api.cobalt.tools/api/json', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              url: v,
+              isAudioOnly: true,
+              aFormat: 'opus',
+              filenamePattern: 'basic'
+            })
+          })
+            .then(_ => _.json())
+            .then(data => xml.replace(v, data.url));
+
+        });
+
+      return xml;
+    });
+
+
 }
