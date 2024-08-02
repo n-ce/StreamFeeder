@@ -11,19 +11,22 @@ export default async function handler(req, res) {
         .filter(v => v.includes('<link>') && v.includes('watch?v='))
         .map(v => v.slice(12, 55));
 
-      for await (const v of values)
-        await fetch('https://api.cobalt.tools/api/json', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            url: v,
-            isAudioOnly: true,
-            aFormat: 'opus',
-            filenamePattern: 'basic'
+      await Promise.all(
+        values.map(v =>
+          fetch('https://api.cobalt.tools/api/json', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              url: v,
+              isAudioOnly: true,
+              aFormat: 'opus',
+              filenamePattern: 'basic'
+            })
           })
-        })
-          .then(_ => _.json())
-          .then(data => xml.replace(v, data.url));
+            .then(_ => _.json())
+            .then(data => xml.replace(v, data.url))
+        )
+      )
 
       return res.send(xml);
     });
