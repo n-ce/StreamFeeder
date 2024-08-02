@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
         });
 
-      return xml;
+      return res.send(xml);
     });
 
 
